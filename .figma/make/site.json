@@ -1,0 +1,10 @@
+{
+  "description": "Centralize and showcase your videos from YouTube, TikTok, and Instagram alongside blog content to engage and grow your audience effectively.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
