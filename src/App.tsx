@@ -890,17 +890,19 @@ function AboutPage() {
             About Coping With Suffering<span className="accent">.</span>
           </h1>
           <p className="about-lead">
-            A creator, a collector of little moments, and a firm believer that
-            there’s a story hiding just about everywhere.
+            An Uber Driver, Painter, and Construction Worker
           </p>
           <p>
-            Coping with Suffering is my little corner of the internet — a home
-            for the places I go, the things I make, and the thoughts that don’t
-            quite fit into a video.
+            What do these all have in common? Our society places an
+            unprecedented weight on 'figuring it out yourself', but that's not
+            the way it should be. Our problems, addictions, and traumas should
+            be attacked head on. Throughout thousands of years, Religion has
+            provided us with the tools necessary to work with our daily lives.
+            In these interviews, we hope you can find peace.
           </p>
           <p>
-            Thanks for stopping by. Stay a while, find something that makes you
-            curious, and let’s see where it takes us.
+            Thank you for watching. Please contact me @ yinoah8@gmail.com if you
+            have any questions or would like to be interviewed
           </p>
           <a className="primary-button" href="mailto:hello@example.com">
             Let’s make something <Icon name="arrow" size={17} />
@@ -910,7 +912,7 @@ function AboutPage() {
           </p>
         </div>
         <figure className="about-page-image">
-          <img src={photos.camera} alt="Camera and notebook on a café table" />
+          <img src={photos.me} alt="Camera and notebook on a café table" />
           <figcaption>Stories start with paying attention.</figcaption>
         </figure>
       </div>
