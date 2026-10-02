@@ -31,6 +31,7 @@ const photos = {
     "https://images.unsplash.com/photo-1551291420-91160f3d4961?auto=format&fit=crop&w=900&q=85",
   buddhism2:
     "https://images.unsplash.com/photo-1544486961-bf701528b823?auto=format&fit=crop&w=900&q=85",
+  me: "https://images.unsplash.com/photo-1544486961-bf701528b823?auto=format&fit=crop&w=900&q=85",
 }
 const videos: Video[] = [
   {
@@ -442,7 +443,7 @@ function Site() {
               <button
                 className="landing-feature"
                 onClick={() => setActiveVideo(videos[0])}
-                aria-label="Watch A week of getting lost in Italy"
+                aria-label="Watch our exploration of Buddhism"
               >
                 <span className="landing-feature-play">
                   <Icon name="play" size={22} />
@@ -706,13 +707,10 @@ function Site() {
               </div>
               <div className="newsletter-copy">
                 <div className="eyebrow muted">
-                  A LETTER, EVERY NOW AND THEN
+                  A MAILING LIST (work in progress)
                 </div>
-                <h2>Let’s keep in touch.</h2>
-                <p>
-                  New videos, fresh stories, and things I think you’ll love. No
-                  noise.
-                </p>
+                <h2>Join the Mailing List!</h2>
+                <p>New interviews and clips will be sent to you directly.</p>
               </div>
               <button
                 className="primary-button"
@@ -896,24 +894,22 @@ function AboutPage() {
             What do these all have in common? Our society places an
             unprecedented weight on 'figuring it out yourself', but that's not
             the way it should be. Our problems, addictions, and traumas should
-            be attacked head on. Throughout thousands of years, Religion has
-            provided us with the tools necessary to work with our daily lives.
-            In these interviews, we hope you can find peace.
+            be attacked head on. For thousands of years, Religion has provided
+            us with the tools necessary to work with our daily lives. In these
+            interviews, we hope you can find peace.
           </p>
           <p>
             Thank you for watching. Please contact me @ yinoah8@gmail.com if you
             have any questions or would like to be interviewed
           </p>
-          <a className="primary-button" href="mailto:hello@example.com">
+          <a className="primary-button" href="mailto:yinoah8@gmail.com">
             Let’s make something <Icon name="arrow" size={17} />
           </a>
-          <p className="about-demo-note">
-            Sample creator bio and contact details, ready to make your own.
-          </p>
+          <p className="about-demo-note">@hello_noah101 on Instagram</p>
         </div>
         <figure className="about-page-image">
-          <img src={photos.me} alt="Camera and notebook on a café table" />
-          <figcaption>Stories start with paying attention.</figcaption>
+          <img src={photos.me} alt="This is us" />
+          <figcaption>Change starts with Exploration</figcaption>
         </figure>
       </div>
       <div className="about-explore">
