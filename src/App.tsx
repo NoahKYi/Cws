@@ -109,35 +109,35 @@ type Interview = Video & {
 const interviews: Interview[] = [
   {
     id: 103,
-    title: "Making room for grief",
+    title: "Buddhism",
     category: "THE INTERVIEW SERIES",
     platform: "YouTube",
     image:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=85",
-    duration: "38:12",
-    date: "2025-06-20",
-    guest: "Maya Ellis",
-    role: "Writer & storyteller",
-    episode: "03",
-    topic: "GRIEF & CONNECTION",
+    duration: "49:56",
+    date: "2026-01-12",
+    guest: "Abbot of Temple Thich Tinh Nghiem and Mr. Paul Cao",
+    role: "Buddhist Practitioners",
+    episode: "01",
+    topic: "Buddhism",
     description:
-      "A sample conversation about living alongside loss, finding words for difficult feelings, and letting other people in. Guest names and portraits are illustrative placeholders.",
+      "Interview with a Buddhist practitioner to understand Enlightenment and the Eightfold Path.  Special thanks to the Abbot of the Temple Thich Tinh Nghiem for your wisdom and to Paul Cao for the thoughtful translation.",
   },
   {
     id: 102,
-    title: "Finding meaning in the in-between",
+    title: "Islam",
     category: "THE INTERVIEW SERIES",
     platform: "YouTube",
     image:
       "https://images.unsplash.com/photo-1576110598658-096ae24cdb97?auto=format&fit=crop&w=500&q=85",
-    duration: "42:06",
+    duration: "50:23",
     date: "2025-06-06",
-    guest: "Daniel Brooks",
-    role: "Artist & community builder",
+    guest: "Mr. Ahmed Basheer",
+    role: "Associate Imam ",
     episode: "02",
-    topic: "CHANGE & BELONGING",
+    topic: "Exploring Islam",
     description:
-      "A sample conversation about uncertainty, starting again, and the everyday connections that help us feel less alone. Guest names and portraits are illustrative placeholders.",
+      "In this interview, we explore Islam through historical, cultural, and contemporary perspectives. Associate Imam Mr. Ahmed Basheer discusses the foundations of Islam, its cultural significance, and how Islamic teachings can help us better understand suffering, purpose, and the human experience.",
   },
   {
     id: 101,
@@ -312,7 +312,7 @@ function Site() {
   const isAbout = pathname === "/about"
   useEffect(() => {
     document.title = isAbout
-      ? "About Me · Coping with Suffering"
+      ? "About Us · Coping with Suffering"
       : "Coping with Suffering"
   }, [isAbout])
   const [platform, setPlatform] = useState("All videos")
@@ -391,7 +391,7 @@ function Site() {
               aria-current={isAbout ? "page" : undefined}
               onClick={() => setMobileMenu(false)}
             >
-              About me
+              About Us
             </Link>
           </nav>
           <div className="header-actions">
@@ -427,13 +427,12 @@ function Site() {
               <div className="landing-shade" aria-hidden="true" />
               <div className="hero-copy">
                 <div className="eyebrow">
-                  <span className="red-dot" /> ALEX MORGAN · CREATOR &
-                  STORYTELLER
+                  <span className="" /> NOAH YI · INTERVIEWER
                 </div>
                 <h1 id="hero-title">
-                  Life happens.
+                  Exploring
                   <br />
-                  <em>I hit record.</em>
+                  <em>Religion</em>
                 </h1>
                 <p>
                   Places, people, and the little things in between.
@@ -445,9 +444,9 @@ function Site() {
                   Explore the videos <Icon name="arrow" size={18} />
                 </a>
                 <div className="hero-social">
-                  <span>FIND ME ELSEWHERE</span>
+                  <span>FIND US ELSEWHERE</span>
                   <a
-                    href="https://youtube.com"
+                    href="https://www.youtube.com/@copingwithsuffering "
                     target="_blank"
                     rel="noreferrer"
                     aria-label="YouTube"
@@ -455,7 +454,7 @@ function Site() {
                     <Icon name="YouTube" size={19} />
                   </a>
                   <a
-                    href="https://tiktok.com"
+                    href="https://www.tiktok.com/@copingwithsuffering "
                     target="_blank"
                     rel="noreferrer"
                     aria-label="TikTok"
@@ -463,7 +462,7 @@ function Site() {
                     <Icon name="TikTok" size={18} />
                   </a>
                   <a
-                    href="https://instagram.com"
+                    href="https://www.instagram.com/copingwithsuffering/?hl=it "
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Instagram"
@@ -482,17 +481,15 @@ function Site() {
                 </span>
                 <span className="landing-feature-copy">
                   <span className="landing-feature-label">
-                    THE LATEST ADVENTURE · 12:48
+                    LATEST INTERVIEW · 12:48
                   </span>
-                  <span className="landing-feature-title">
-                    A week of getting lost in Italy
-                  </span>
+                  <span className="landing-feature-title">What is Islam?</span>
                 </span>
                 <Icon name="diagonal" size={18} />
               </button>
             </section>
             <div className="section-rule">
-              <span>GOOD STORIES. ALL IN ONE PLACE.</span>
+              <span>Interviews & Videos</span>
               <span className="rule-line" />
               <span className="tiny-star">✳</span>
             </div>
@@ -501,7 +498,7 @@ function Site() {
                 <div>
                   <div className="eyebrow muted">THE VIDEO COLLECTION</div>
                   <h2>
-                    See what I’ve been up to<span>.</span>
+                    Our Interviews<span>.</span>
                   </h2>
                 </div>
                 <span className="section-aside">
@@ -666,7 +663,7 @@ function Site() {
                     REAL QUESTIONS. HUMAN CONVERSATIONS.
                   </div>
                   <h2 id="interviews-title">
-                    The interview timeline<span>.</span>
+                    Current Interviews<span>.</span>
                   </h2>
                 </div>
                 <span className="section-aside">
@@ -773,9 +770,7 @@ function Site() {
           <br />
           suffering<span>.</span>
         </Link>
-        <span>
-          Made with curiosity. © {new Date().getFullYear()} Alex Morgan.
-        </span>
+        <span>Made with curiosity. © {new Date().getFullYear()} Noah Yi.</span>
         <div>
           <a
             href="https://youtube.com"
@@ -801,7 +796,7 @@ function Site() {
           >
             <Icon name="Instagram" size={18} />
           </a>
-          <a href="mailto:hello@example.com" aria-label="Email Alex">
+          <a href="yinoah8@gmail.com" aria-label="Email Noah">
             <Icon name="mail" size={18} />
           </a>
         </div>
@@ -856,9 +851,7 @@ function Site() {
               {activePost.category} · {activePost.time}
             </div>
             <h2>{activePost.title}</h2>
-            <span className="article-date">
-              Alex Morgan · {activePost.date}
-            </span>
+            <span className="article-date">Noah Yi · {activePost.date}</span>
             <p className="article-intro">{activePost.intro}</p>
             {activePost.body.map((p) => (
               <p key={p}>{p}</p>
@@ -934,12 +927,9 @@ function AboutPage() {
       </Link>
       <div className="about-page-grid">
         <div className="about-page-copy">
-          <div className="eyebrow muted">
-            <span className="red-dot" />
-            THE PERSON BEHIND THE CAMERA
-          </div>
+          <div className="eyebrow muted"></div>
           <h1 id="about-title">
-            Hey, I’m Alex<span className="accent">.</span>
+            About Coping With Suffering<span className="accent">.</span>
           </h1>
           <p className="about-lead">
             A creator, a collector of little moments, and a firm believer that
