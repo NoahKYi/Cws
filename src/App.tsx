@@ -21,84 +21,82 @@ type Video = {
   description: string
 }
 const photos = {
-  coast:
+  buddhism:
     "https://images.unsplash.com/photo-1701511114993-64289ca7f621?auto=format&fit=crop&w=1600&q=85",
-  tokyo:
+  islam:
     "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=900&q=85",
-  coffee:
+  christianity:
     "https://images.unsplash.com/photo-1609506905005-81ca4ed0a4f1?auto=format&fit=crop&w=900&q=85",
-  mountains:
+  islam2:
     "https://images.unsplash.com/photo-1551291420-91160f3d4961?auto=format&fit=crop&w=900&q=85",
-  camera:
+  buddhism2:
     "https://images.unsplash.com/photo-1544486961-bf701528b823?auto=format&fit=crop&w=900&q=85",
 }
 const videos: Video[] = [
   {
     id: 1,
-    title: "Islam",
-    category: "TRAVEL DIARY",
+    title: "Traits of Enlightenment",
+    category: "Buddhism",
     platform: "YouTube",
-    image: photos.coast,
-    duration: "12:48",
-    date: "2025-06-18",
-    description:
-      "Slow mornings, salt in the air, and no particular place to be. A little film about taking the scenic route along the Italian coast.",
+    image: photos.buddhism,
+    duration: ":55",
+    date: "2025-05-27",
+    description: "What it means to be Enlightened in the Buddhist perspective",
   },
   {
     id: 2,
-    title: "Tokyo, after the sun goes down",
-    category: "LITTLE MOMENTS",
+    title: "Islam & Action",
+    category: "Islam",
     platform: "TikTok",
-    image: photos.tokyo,
-    duration: "0:58",
-    date: "2025-06-14",
+    image: photos.islam,
+    duration: "0:16",
+    date: "2025-08-05",
     description:
-      "Neon-lit streets, late-night ramen, and a city that never quite goes to sleep. A few favorite moments from a night in Tokyo.",
+      "Islam is ultimately a faith of Action, explore what that means in this video",
   },
   {
     id: 3,
-    title: "The art of a slow morning",
-    category: "EVERYDAY LIFE",
+    title: "Forgiveness",
+    category: "Islam",
     platform: "Instagram",
-    image: photos.coffee,
-    duration: "1:24",
-    date: "2025-06-10",
-    description:
-      "Coffee before notifications. A camera on the table. Finding a little room to breathe in the everyday.",
+    image: photos.islam2,
+    duration: "0:20",
+    date: "2026-08-09",
+    description: "Forgiveness is an act that is ultimately up to you.",
   },
   {
     id: 4,
-    title: "Somewhere in the Dolomites",
-    category: "OUTSIDE & OFFLINE",
+    title: "On Materialism",
+    category: "Buddhism",
     platform: "YouTube",
-    image: photos.mountains,
-    duration: "8:16",
-    date: "2025-06-06",
+    image: photos.buddhism,
+    duration: "0:38",
+    date: "2026-09-27",
     description:
-      "Trading screen time for mountain time. A few days of hiking, cold-water swims, and remembering how good it feels to be outside.",
+      "There is only one true joy that goes beyond 'stuff'. 'the less you have, the more you truly posess'",
   },
   {
     id: 5,
-    title: "Small moments, big memories",
-    category: "BEHIND THE SCENES",
+    title: "On Living Life",
+    category: "Buddhism",
     platform: "Instagram",
-    image: photos.camera,
-    duration: "0:46",
-    date: "2025-06-02",
+    image: photos.buddhism2,
+    duration: "0:16",
+    date: "2026-09-20",
     description:
-      "A peek behind the lens, and a reminder that the best moments rarely happen according to plan.",
+      "How does a Buddhist monk live their life? What is important? What isn't?",
   },
-  {
+  /** {
     id: 6,
     title: "A postcard from the coast",
     category: "TRAVEL DIARY",
     platform: "TikTok",
-    image: photos.coast,
+    image: photos.c,
     duration: "0:32",
     date: "2025-05-28",
     description:
       "Sun-warmed streets and that impossible shade of blue. Consider this your invitation to take the long way home.",
-  },
+}, **/
 ]
 type Interview = Video & {
   guest: string
@@ -157,45 +155,16 @@ const interviews: Interview[] = [
 ]
 const posts = [
   {
-    title: "Why I’m choosing the slower road",
+    title: "Behind the Scenes",
     category: "PERSONAL NOTES",
-    image: photos.mountains,
-    date: "June 16, 2025",
+    image: photos.islam,
+    date: "August 1, 2026",
     time: "5 min read",
-    intro:
-      "A few thoughts on doing less, noticing more, and making room for what matters.",
+    intro: "I want to begin by appreciating you for reading.",
     body: [
-      "Somewhere along the way, I started measuring a good day by how much I could fit into it. Another place visited, another video made, another thing crossed off a list. But the moments I kept coming back to were the ones in between.",
-      "A quiet morning beside a mountain lake. An unplanned conversation. The long way back to the hotel, with the camera still in my bag. These little pauses were never in the itinerary, and yet they became the things I remembered most.",
-      "So lately, I’m choosing the slower road. Not because there’s any less to discover, but because I want to be there when it happens. This is a small reminder, for you and for me: we don’t have to turn every moment into something. Sometimes being in it is enough.",
-    ],
-  },
-  {
-    title: "What’s in my camera bag?",
-    category: "BEHIND THE LENS",
-    image: photos.camera,
-    date: "June 8, 2025",
-    time: "4 min read",
-    intro:
-      "My everyday essentials for capturing life, without carrying my whole life.",
-    body: [
-      "The best camera bag is the one you actually want to carry. Over the years, mine has gotten smaller as I’ve learned what I really reach for when I’m out in the world.",
-      "A small camera, one versatile lens, spare batteries, and a notebook. That’s the core of it. My phone fills in the gaps, especially for short clips and spontaneous little moments.",
-      "My advice is simple: get comfortable with what you have before adding something new. Learn to see the light. Get closer. Wait a little longer. The equipment is there to help you tell a story, not get between you and it.",
-    ],
-  },
-  {
-    title: "A little guide to getting lost",
-    category: "TRAVEL & PLACES",
-    image: photos.coast,
-    date: "May 29, 2025",
-    time: "6 min read",
-    intro:
-      "Leave a little space in your itinerary. That’s where the good stuff happens.",
-    body: [
-      "I love a good map. I just don’t always love following it. Some of my favorite travel memories started with a wrong turn or a recommendation scribbled on the back of a receipt.",
-      "Pick one thing you want to do each day and leave room around it. Find a café that feels welcoming. Ask someone where they go on their day off. Walk until a street makes you curious, and then follow it.",
-      "Getting lost isn’t about being careless. Download an offline map, keep your essentials with you, and know how to get home. Then give yourself permission to find something you weren’t looking for.",
+      "We usually begin by researching the Religion beforehand through reading their scripture",
+      "Afterwards, we begin contacting different religious institutions about an interview (this step is the hardest part as there aren't many throughout Arizona)",
+      "And finally, we take the interview and edit it. My favorite part is finding the clips. We usually look for clips that can have the most impact on people's lives",
     ],
   },
 ]
@@ -435,7 +404,7 @@ function Site() {
                 </h1>
                 <p>
                   Understanding faith and making accesible to everyone
-                  <br className="desktop-break" /> A home for my interviews,
+                  <br className="desktop-break" /> A home for our interviews,
                   shorts, and in-depth
                   <br className="desktop-break" /> analyses.
                 </p>
@@ -497,7 +466,7 @@ function Site() {
                 <div>
                   <div className="eyebrow muted">THE VIDEO COLLECTION</div>
                   <h2>
-                    Our Interviews<span>.</span>
+                    Some Clips<span>.</span>
                   </h2>
                 </div>
                 <span className="section-aside">
@@ -617,7 +586,9 @@ function Site() {
             <section className="journal-section" id="journal">
               <div className="section-heading">
                 <div>
-                  <div className="eyebrow muted">WORDS BETWEEN THE FRAMES</div>
+                  <div className="eyebrow muted">
+                    THOUGHTS BEYOND THE INTERVIEWS
+                  </div>
                   <h2>
                     From the journal<span>.</span>
                   </h2>
@@ -658,15 +629,13 @@ function Site() {
             >
               <div className="section-heading">
                 <div>
-                  <div className="eyebrow muted">
-                    REAL QUESTIONS. HUMAN CONVERSATIONS.
-                  </div>
+                  <div className="eyebrow muted">EXPLORING RELIGION</div>
                   <h2 id="interviews-title">
                     Current Interviews<span>.</span>
                   </h2>
                 </div>
                 <span className="section-aside">
-                  One conversation at a time.
+                  Watch full interviews on Spotify & Youtube
                 </span>
               </div>
               <p className="timeline-intro">
