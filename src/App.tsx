@@ -35,7 +35,7 @@ const photos = {
 const videos: Video[] = [
   {
     id: 1,
-    title: "A week of getting lost in Italy",
+    title: "Islam",
     category: "TRAVEL DIARY",
     platform: "YouTube",
     image: photos.coast,
@@ -116,12 +116,12 @@ const interviews: Interview[] = [
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=85",
     duration: "49:56",
     date: "2026-01-12",
-    guest: "Abbot of Temple Thich Tinh Nghiem and Mr. Paul Cao",
+    guest: "Temple Abbot Thich Tinh Nghiem and Mr. Paul Cao",
     role: "Buddhist Practitioners",
     episode: "01",
     topic: "Buddhism",
     description:
-      "Interview with a Buddhist practitioner to understand Enlightenment and the Eightfold Path.  Special thanks to the Abbot of the Temple Thich Tinh Nghiem for your wisdom and to Paul Cao for the thoughtful translation.",
+      "Interview with a Buddhist practitioner to understand Enlightenment and the Eightfold Path.  Special thanks to the Temple Abbot Thich Tinh Nghiem for your wisdom and to Paul Cao for the thoughtful translation.",
   },
   {
     id: 102,
@@ -131,7 +131,7 @@ const interviews: Interview[] = [
     image:
       "https://images.unsplash.com/photo-1576110598658-096ae24cdb97?auto=format&fit=crop&w=500&q=85",
     duration: "50:23",
-    date: "2025-06-06",
+    date: "2026-07-11",
     guest: "Mr. Ahmed Basheer",
     role: "Associate Imam ",
     episode: "02",
@@ -141,19 +141,18 @@ const interviews: Interview[] = [
   },
   {
     id: 101,
-    title: "Small acts of hope",
+    title: "Christianity",
     category: "THE INTERVIEW SERIES",
     platform: "YouTube",
     image:
       "https://images.unsplash.com/photo-1563064097-bf024f348d31?auto=format&fit=crop&w=500&q=85",
-    duration: "31:45",
-    date: "2025-05-23",
-    guest: "Sofia Reed",
-    role: "Writer & creative",
-    episode: "01",
-    topic: "HOPE & EVERYDAY LIFE",
-    description:
-      "A sample conversation about showing up for ourselves, noticing small moments of joy, and finding hope without pretending everything is okay. Guest names and portraits are illustrative placeholders.",
+    duration: "",
+    date: "2026-10-12",
+    guest: "Michael Chaffin",
+    role: "Minister",
+    episode: "03",
+    topic: "Exploring Addiction, Salvation, Sin, and more",
+    description: "Understanding Christianity and using it to better our lives.",
   },
 ]
 const posts = [
@@ -435,10 +434,10 @@ function Site() {
                   <em>Religion</em>
                 </h1>
                 <p>
-                  Places, people, and the little things in between.
-                  <br className="desktop-break" /> A home for my videos,
-                  stories, and whatever
-                  <br className="desktop-break" /> comes next.
+                  Understanding faith and making accesible to everyone
+                  <br className="desktop-break" /> A home for my interviews,
+                  shorts, and in-depth
+                  <br className="desktop-break" /> analyses.
                 </p>
                 <a className="primary-button" href="#videos">
                   Explore the videos <Icon name="arrow" size={18} />
@@ -481,7 +480,7 @@ function Site() {
                 </span>
                 <span className="landing-feature-copy">
                   <span className="landing-feature-label">
-                    LATEST INTERVIEW · 12:48
+                    LATEST INTERVIEW · 50:23
                   </span>
                   <span className="landing-feature-title">What is Islam?</span>
                 </span>
@@ -502,7 +501,7 @@ function Site() {
                   </h2>
                 </div>
                 <span className="section-aside">
-                  Different platforms. Same curiosity.
+                  Across different platforms
                 </span>
               </div>
               <div className="collection-controls">
@@ -671,8 +670,8 @@ function Site() {
                 </span>
               </div>
               <p className="timeline-intro">
-                Exploring loss, meaning, and the things that help us keep going.
-                Start anywhere — there’s no right order.
+                Exploring addiction, faith, trauma, meaning, and suffering.
+                Start anywhere
               </p>
               <ol className="interview-timeline">
                 {interviews.map((interview) => (
@@ -731,10 +730,6 @@ function Site() {
                   </li>
                 ))}
               </ol>
-              <p className="timeline-demo-note">
-                Sample interviews · Guest names, portraits, and video previews
-                are placeholders for your own conversations.
-              </p>
             </section>
             <section className="newsletter">
               <div className="newsletter-symbol">
@@ -773,7 +768,7 @@ function Site() {
         <span>Made with curiosity. © {new Date().getFullYear()} Noah Yi.</span>
         <div>
           <a
-            href="https://youtube.com"
+            href="https://www.youtube.com/@copingwithsuffering"
             target="_blank"
             rel="noreferrer"
             aria-label="YouTube"
@@ -781,7 +776,7 @@ function Site() {
             <Icon name="YouTube" size={18} />
           </a>
           <a
-            href="https://tiktok.com"
+            href="https://www.tiktok.com/@copingwithsuffering "
             target="_blank"
             rel="noreferrer"
             aria-label="TikTok"
@@ -789,7 +784,7 @@ function Site() {
             <Icon name="TikTok" size={18} />
           </a>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/copingwithsuffering/?hl=it "
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
@@ -809,7 +804,7 @@ function Site() {
             autoPlay
             playsInline
             poster={activeVideo.image}
-            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+            src="https://www.youtube.com/watch?v=xvKO6Wwra34"
           />
           <div className="modal-content">
             <div className="eyebrow muted">
@@ -825,7 +820,7 @@ function Site() {
               className="primary-button"
               href={
                 activeVideo.platform === "YouTube"
-                  ? `https://www.youtube.com/results?search_query=${encodeURIComponent(activeVideo.title)}`
+                  ? `https://www.youtube.com/watch?v=xvKO6Wwra34`
                   : activeVideo.platform === "TikTok"
                     ? `https://www.tiktok.com/search?q=${encodeURIComponent(activeVideo.title)}`
                     : "https://www.instagram.com/"
@@ -875,23 +870,17 @@ function Site() {
                   Thanks for being here. Your email has been saved on this
                   device.
                 </p>
-                <p className="demo-note">
-                  This demo doesn’t send email yet. Connect an email service to
-                  enable real subscriptions.
-                </p>
+                <p className="demo-note">Currently in the works</p>
                 <button
                   className="primary-button"
                   onClick={() => setSubscribeOpen(false)}
                 >
-                  Keep exploring <Icon name="arrow" size={17} />
+                  Keep looking <Icon name="arrow" size={17} />
                 </button>
               </>
             ) : (
               <>
-                <p>
-                  New stories, videos, and a little inspiration, delivered every
-                  now and then.
-                </p>
+                <p>New interviews, blogs, and more</p>
                 <form onSubmit={subscribe}>
                   <label htmlFor="email">Your email address</label>
                   <input
