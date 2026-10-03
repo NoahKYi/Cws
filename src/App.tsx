@@ -19,6 +19,7 @@ type Video = {
   duration: string
   date: string
   description: string
+  videoUrl: string
 }
 const photos = {
   buddhism:
@@ -43,6 +44,7 @@ const videos: Video[] = [
     duration: ":55",
     date: "2025-05-27",
     description: "What it means to be Enlightened in the Buddhist perspective",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
   {
     id: 2,
@@ -54,6 +56,7 @@ const videos: Video[] = [
     date: "2025-08-05",
     description:
       "Islam is ultimately a faith of Action, explore what that means in this video",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
   {
     id: 3,
@@ -64,6 +67,7 @@ const videos: Video[] = [
     duration: "0:20",
     date: "2026-08-09",
     description: "Forgiveness is an act that is ultimately up to you.",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
   {
     id: 4,
@@ -75,6 +79,7 @@ const videos: Video[] = [
     date: "2026-09-27",
     description:
       "There is only one true joy that goes beyond 'stuff'. 'the less you have, the more you truly posess'",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
   {
     id: 5,
@@ -86,6 +91,7 @@ const videos: Video[] = [
     date: "2026-09-20",
     description:
       "How does a Buddhist monk live their life? What is important? What isn't?",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
   /** {
     id: 6,
@@ -121,6 +127,7 @@ const interviews: Interview[] = [
     topic: "Buddhism",
     description:
       "Interview with a Buddhist practitioner to understand Enlightenment and the Eightfold Path.  Special thanks to the Temple Abbot Thich Tinh Nghiem for your wisdom and to Paul Cao for the thoughtful translation.",
+    videoUrl: "https://www.youtube.com/watch?v=yO7PIvXIglo&t=91s",
   },
   {
     id: 102,
@@ -137,6 +144,7 @@ const interviews: Interview[] = [
     topic: "Exploring Islam",
     description:
       "In this interview, we explore Islam through historical, cultural, and contemporary perspectives. Associate Imam Mr. Ahmed Basheer discusses the foundations of Islam, its cultural significance, and how Islamic teachings can help us better understand suffering, purpose, and the human experience.",
+    videoUrl: "https://www.youtube.com/watch?v=xvKO6Wwra34&t=7s",
   },
   {
     id: 101,
@@ -152,6 +160,7 @@ const interviews: Interview[] = [
     episode: "03",
     topic: "Exploring Addiction, Salvation, Sin, and more",
     description: "Understanding Christianity and using it to better our lives.",
+    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
   },
 ]
 const posts = [
@@ -169,6 +178,52 @@ const posts = [
     ],
   },
 ]
+
+function getVideoEmbedUrl(video: Video) {
+  if (video.videoUrl.includes("YOUR_VIDEO_ID")) return null
+
+  try {
+    const url = new URL(video.videoUrl)
+
+    if (video.platform === "YouTube") {
+      const videoId =
+        url.hostname === "youtu.be"
+          ? url.pathname.split("/").filter(Boolean)[0]
+          : url.searchParams.get("v") ??
+            url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1]
+
+      if (!videoId) return null
+
+      const time = url.searchParams.get("t") ?? url.searchParams.get("start")
+      const timeParts = time?.match(
+        /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/,
+      )
+      const seconds = timeParts
+        ? Number(timeParts[1] ?? 0) * 3600 +
+          Number(timeParts[2] ?? 0) * 60 +
+          Number(timeParts[3] ?? 0)
+        : 0
+      const params = new URLSearchParams({ autoplay: "1", rel: "0" })
+      if (seconds) params.set("start", String(seconds))
+
+      return `https://www.youtube.com/embed/${videoId}?${params}`
+    }
+
+    if (video.platform === "TikTok") {
+      const videoId = url.pathname.match(/\/video\/(\d+)/)?.[1]
+      return videoId
+        ? `https://www.tiktok.com/player/v1/${videoId}?autoplay=1`
+        : null
+    }
+
+    const post = url.pathname.match(/^\/(p|reel|tv)\/([^/]+)/)
+    return post
+      ? `https://www.instagram.com/${post[1]}/${post[2]}/embed/`
+      : null
+  } catch {
+    return null
+  }
+}
 
 function Icon({
   name,
@@ -297,6 +352,9 @@ function Site() {
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
   const [mobileMenu, setMobileMenu] = useState(false)
+  const activeVideoEmbedUrl = activeVideo
+    ? getVideoEmbedUrl(activeVideo)
+    : null
   const filtered = videos
     .filter(
       (v) =>
@@ -765,14 +823,23 @@ function Site() {
       </footer>
       {activeVideo && (
         <Modal title={activeVideo.title} onClose={() => setActiveVideo(null)}>
-          <video
-            className="modal-video"
-            controls
-            autoPlay
-            playsInline
-            poster={activeVideo.image}
-            src="https://www.youtube.com/watch?v=xvKO6Wwra34"
-          />
+          {activeVideoEmbedUrl ? (
+            <iframe
+              className="modal-video"
+              src={activeVideoEmbedUrl}
+              title={activeVideo.title}
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          ) : (
+            <div className="modal-video modal-video-placeholder">
+              <img src={activeVideo.image} alt="" />
+              <span>
+                Add a valid {activeVideo.platform} video URL to display it here.
+              </span>
+            </div>
+          )}
           <div className="modal-content">
             <div className="eyebrow muted">
               {activeVideo.category} · {activeVideo.platform}
@@ -780,18 +847,12 @@ function Site() {
             <h2>{activeVideo.title}</h2>
             <p>{activeVideo.description}</p>
             <p className="demo-note">
-              This is a sample video preview. Replace it with your own video or
-              platform embed.
+              Videos play here using the official {activeVideo.platform} embed
+              player.
             </p>
             <a
               className="primary-button"
-              href={
-                activeVideo.platform === "YouTube"
-                  ? `https://www.youtube.com/watch?v=xvKO6Wwra34`
-                  : activeVideo.platform === "TikTok"
-                    ? `https://www.tiktok.com/search?q=${encodeURIComponent(activeVideo.title)}`
-                    : "https://www.instagram.com/"
-              }
+              href={activeVideo.videoUrl}
               target="_blank"
               rel="noreferrer"
             >

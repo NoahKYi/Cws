@@ -1,0 +1,968 @@
+[/workspaces/default/code/src/App.tsx#6fb7]
+1:import { useEffect, useRef, useState } from "react"
+2:import type { ReactNode } from "react"
+3:import {
+4:  createBrowserRouter,
+5:  Link,
+6:  RouterProvider,
+7:  ScrollRestoration,
+8:  useLocation,
+9:} from "react-router"
+10:import interviewHero from "./assets/interview-hero.jpg"
+11:
+12:type Platform = "YouTube" | "TikTok" | "Instagram"
+13:type Video = {
+14:  id: number
+15:  title: string
+16:  category: string
+17:  platform: Platform
+18:  image: string
+19:  duration: string
+20:  date: string
+21:  description: string
+22:  videoUrl: string
+23:}
+24:const photos = {
+25:  buddhism:
+26:    "https://images.unsplash.com/photo-1701511114993-64289ca7f621?auto=format&fit=crop&w=1600&q=85",
+27:  islam:
+28:    "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=900&q=85",
+29:  christianity:
+30:    "https://images.unsplash.com/photo-1609506905005-81ca4ed0a4f1?auto=format&fit=crop&w=900&q=85",
+31:  islam2:
+32:    "https://images.unsplash.com/photo-1551291420-91160f3d4961?auto=format&fit=crop&w=900&q=85",
+33:  buddhism2:
+34:    "https://images.unsplash.com/photo-1544486961-bf701528b823?auto=format&fit=crop&w=900&q=85",
+35:  me: "https://images.unsplash.com/photo-1544486961-bf701528b823?auto=format&fit=crop&w=900&q=85",
+36:}
+37:const videos: Video[] = [
+38:  {
+39:    id: 1,
+40:    title: "Traits of Enlightenment",
+41:    category: "Buddhism",
+42:    platform: "YouTube",
+43:    image: photos.buddhism,
+44:    duration: ":55",
+45:    date: "2025-05-27",
+46:    description: "What it means to be Enlightened in the Buddhist perspective",
+47:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+48:  },
+49:  {
+50:    id: 2,
+51:    title: "Islam & Action",
+52:    category: "Islam",
+53:    platform: "TikTok",
+54:    image: photos.islam,
+55:    duration: "0:16",
+56:    date: "2025-08-05",
+57:    description:
+58:      "Islam is ultimately a faith of Action, explore what that means in this video",
+59:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+60:  },
+61:  {
+62:    id: 3,
+63:    title: "Forgiveness",
+64:    category: "Islam",
+65:    platform: "Instagram",
+66:    image: photos.islam2,
+67:    duration: "0:20",
+68:    date: "2026-08-09",
+69:    description: "Forgiveness is an act that is ultimately up to you.",
+70:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+71:  },
+72:  {
+73:    id: 4,
+74:    title: "On Materialism",
+75:    category: "Buddhism",
+76:    platform: "YouTube",
+77:    image: photos.buddhism,
+78:    duration: "0:38",
+79:    date: "2026-09-27",
+80:    description:
+81:      "There is only one true joy that goes beyond 'stuff'. 'the less you have, the more you truly posess'",
+82:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+83:  },
+84:  {
+85:    id: 5,
+86:    title: "On Living Life",
+87:    category: "Buddhism",
+88:    platform: "Instagram",
+89:    image: photos.buddhism2,
+90:    duration: "0:16",
+91:    date: "2026-09-20",
+92:    description:
+93:      "How does a Buddhist monk live their life? What is important? What isn't?",
+94:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+95:  },
+96:  /** {
+97:    id: 6,
+98:    title: "A postcard from the coast",
+99:    category: "TRAVEL DIARY",
+100:    platform: "TikTok",
+101:    image: photos.c,
+102:    duration: "0:32",
+103:    date: "2025-05-28",
+104:    description:
+105:      "Sun-warmed streets and that impossible shade of blue. Consider this your invitation to take the long way home.",
+106:}, **/
+107:]
+108:type Interview = Video & {
+109:  guest: string
+110:  role: string
+111:  episode: string
+112:  topic: string
+113:}
+114:const interviews: Interview[] = [
+115:  {
+116:    id: 103,
+117:    title: "Buddhism",
+118:    category: "THE INTERVIEW SERIES",
+119:    platform: "YouTube",
+120:    image:
+121:      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=85",
+122:    duration: "49:56",
+123:    date: "2026-01-12",
+124:    guest: "Temple Abbot Thich Tinh Nghiem and Mr. Paul Cao",
+125:    role: "Buddhist Practitioners",
+126:    episode: "01",
+127:    topic: "Buddhism",
+128:    description:
+129:      "Interview with a Buddhist practitioner to understand Enlightenment and the Eightfold Path.  Special thanks to the Temple Abbot Thich Tinh Nghiem for your wisdom and to Paul Cao for the thoughtful translation.",
+130:    videoUrl: "https://www.youtube.com/watch?v=yO7PIvXIglo&t=91s",
+131:  },
+132:  {
+133:    id: 102,
+134:    title: "Islam",
+135:    category: "THE INTERVIEW SERIES",
+136:    platform: "YouTube",
+137:    image:
+138:      "https://images.unsplash.com/photo-1576110598658-096ae24cdb97?auto=format&fit=crop&w=500&q=85",
+139:    duration: "50:23",
+140:    date: "2026-07-11",
+141:    guest: "Mr. Ahmed Basheer",
+142:    role: "Associate Imam ",
+143:    episode: "02",
+144:    topic: "Exploring Islam",
+145:    description:
+146:      "In this interview, we explore Islam through historical, cultural, and contemporary perspectives. Associate Imam Mr. Ahmed Basheer discusses the foundations of Islam, its cultural significance, and how Islamic teachings can help us better understand suffering, purpose, and the human experience.",
+147:    videoUrl: "https://www.youtube.com/watch?v=xvKO6Wwra34&t=7s",
+148:  },
+149:  {
+150:    id: 101,
+151:    title: "Christianity",
+152:    category: "THE INTERVIEW SERIES",
+153:    platform: "YouTube",
+154:    image:
+155:      "https://images.unsplash.com/photo-1563064097-bf024f348d31?auto=format&fit=crop&w=500&q=85",
+156:    duration: "",
+157:    date: "2026-10-12",
+158:    guest: "Michael Chaffin",
+159:    role: "Minister",
+160:    episode: "03",
+161:    topic: "Exploring Addiction, Salvation, Sin, and more",
+162:    description: "Understanding Christianity and using it to better our lives.",
+163:    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+164:  },
+165:]
+166:const posts = [
+167:  {
+168:    title: "Behind the Scenes",
+169:    category: "PERSONAL NOTES",
+170:    image: photos.islam,
+171:    date: "August 1, 2026",
+172:    time: "5 min read",
+173:    intro: "I want to begin by appreciating you for reading.",
+174:    body: [
+175:      "We usually begin by researching the Religion beforehand through reading their scripture",
+176:      "Afterwards, we begin contacting different religious institutions about an interview (this step is the hardest part as there aren't many throughout Arizona)",
+177:      "And finally, we take the interview and edit it. My favorite part is finding the clips. We usually look for clips that can have the most impact on people's lives",
+178:    ],
+179:  },
+180:]
+181:
+182:function Icon({
+183:  name,
+184:  size = 20,
+185:  className = "",
+186:}: {
+187:  name: string
+188:  size?: number
+189:  className?: string
+190:}) {
+191:  return (
+192:    <svg
+193:      width={size}
+194:      height={size}
+195:      viewBox="0 0 24 24"
+196:      fill="none"
+197:      stroke="currentColor"
+198:      strokeWidth="1.6"
+199:      strokeLinecap="round"
+200:      strokeLinejoin="round"
+201:      className={className}
+202:      aria-hidden="true"
+203:    >
+204:      {name === "arrow" ? (
+205:        <>
+206:          <path d="M4 12h15M13 6l6 6-6 6" />
+207:        </>
+208:      ) : name === "diagonal" ? (
+209:        <path d="M6 18 18 6M6 6h12v12" />
+210:      ) : name === "play" ? (
+211:        <path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none" />
+212:      ) : name === "search" ? (
+213:        <>
+214:          <circle cx="10.5" cy="10.5" r="6.5" />
+215:          <path d="m16 16 4 4" />
+216:        </>
+217:      ) : name === "close" ? (
+218:        <path d="m6 6 12 12M6 18 18 6" />
+219:      ) : name === "YouTube" ? (
+220:        <>
+221:          <rect x="2" y="5" width="20" height="14" rx="4" />
+222:          <path d="m10 9 5 3-5 3Z" fill="currentColor" stroke="none" />
+223:        </>
+224:      ) : name === "Instagram" ? (
+225:        <>
+226:          <rect x="3" y="3" width="18" height="18" rx="5" />
+227:          <circle cx="12" cy="12" r="4" />
+228:          <circle cx="17.5" cy="6.5" r=".6" fill="currentColor" />
+229:        </>
+230:      ) : name === "TikTok" ? (
+231:        <>
+232:          <path d="M14 3v12a4 4 0 1 1-4-4M14 3c0 4 3 5 6 5" />
+233:        </>
+234:      ) : name === "mail" ? (
+235:        <>
+236:          <rect x="3" y="5" width="18" height="14" rx="2" />
+237:          <path d="m3 6 9 7 9-7" />
+238:        </>
+239:      ) : name === "menu" ? (
+240:        <path d="M4 6h16M4 12h16M4 18h16" />
+241:      ) : (
+242:        <path d="m6 9 6 6 6-6" />
+243:      )}
+244:    </svg>
+245:  )
+246:}
+247:function Modal({
+248:  children,
+249:  title,
+250:  onClose,
+251:}: {
+252:  children: ReactNode
+253:  title: string
+254:  onClose: () => void
+255:}) {
+256:  const ref = useRef<HTMLDialogElement>(null)
+257:  useEffect(() => {
+258:    const dialog = ref.current
+259:    dialog?.showModal()
+260:    const overflow = document.body.style.overflow
+261:    document.body.style.overflow = "hidden"
+262:    return () => {
+263:      dialog?.close()
+264:      document.body.style.overflow = overflow
+265:    }
+266:  }, [])
+267:  return (
+268:    <dialog
+269:      ref={ref}
+270:      className="modal"
+271:      aria-label={title}
+272:      onCancel={onClose}
+273:      onClick={(e) => {
+274:        if (e.target === e.currentTarget) onClose()
+275:      }}
+276:    >
+277:      <button
+278:        className="modal-close icon-button"
+279:        aria-label="Close dialog"
+280:        onClick={onClose}
+281:      >
+282:        <Icon name="close" />
+283:      </button>
+284:      {children}
+285:    </dialog>
+286:  )
+287:}
+288:function Site() {
+289:  const { pathname } = useLocation()
+290:  const isAbout = pathname === "/about"
+291:  useEffect(() => {
+292:    document.title = isAbout
+293:      ? "About Us · Coping with Suffering"
+294:      : "Coping with Suffering"
+295:  }, [isAbout])
+296:  const [platform, setPlatform] = useState("All videos")
+297:  const [sort, setSort] = useState("newest")
+298:  const [query, setQuery] = useState("")
+299:  const [searchOpen, setSearchOpen] = useState(false)
+300:  const [showAll, setShowAll] = useState(false)
+301:  const [activeVideo, setActiveVideo] = useState<Video | null>(null)
+302:  const [activePost, setActivePost] = useState<typeof posts[number] | null>(
+303:    null,
+304:  )
+305:  const [subscribeOpen, setSubscribeOpen] = useState(false)
+306:  const [email, setEmail] = useState("")
+307:  const [subscribed, setSubscribed] = useState(false)
+308:  const [mobileMenu, setMobileMenu] = useState(false)
+309:  const filtered = videos
+310:    .filter(
+311:      (v) =>
+312:        (platform === "All videos" || v.platform === platform) &&
+313:        `${v.title} ${v.category}`.toLowerCase().includes(query.toLowerCase()),
+314:    )
+315:    .sort((a, b) =>
+316:      sort === "newest"
+317:        ? b.date.localeCompare(a.date)
+318:        : a.date.localeCompare(b.date),
+319:    )
+320:  const visible =
+321:    showAll || platform !== "All videos" || query
+322:      ? filtered
+323:      : filtered.slice(0, 4)
+324:  const subscribe = (event: React.FormEvent) => {
+325:    event.preventDefault()
+326:    try {
+327:      localStorage.setItem("elsewhere-newsletter-interest", email)
+328:    } catch {
+329:      /* Signup remains usable when storage is unavailable. */
+330:    }
+331:    setSubscribed(true)
+332:  }
+333:  return (
+334:    <>
+335:      <ScrollRestoration />
+336:      <header
+337:        className={isAbout ? "site-header" : "site-header header-overlay"}
+338:      >
+339:        <div className="header-inner">
+340:          <Link
+341:            to="/"
+342:            className="wordmark brand-long"
+343:            aria-label="Coping with Suffering home"
+344:          >
+345:            coping with
+346:            <br />
+347:            suffering<span>.</span>
+348:          </Link>
+349:          <nav
+350:            className={mobileMenu ? "main-nav is-open" : "main-nav"}
+351:            aria-label="Main navigation"
+352:          >
+353:            <Link
+354:              className={!isAbout ? "nav-active" : undefined}
+355:              to="/#videos"
+356:              onClick={() => setMobileMenu(false)}
+357:            >
+358:              Videos
+359:            </Link>
+360:            <Link to="/#interviews" onClick={() => setMobileMenu(false)}>
+361:              Interviews
+362:            </Link>
+363:            <Link to="/#journal" onClick={() => setMobileMenu(false)}>
+364:              Journal
+365:            </Link>
+366:            <Link
+367:              to="/about"
+368:              className={isAbout ? "nav-active" : undefined}
+369:              aria-current={isAbout ? "page" : undefined}
+370:              onClick={() => setMobileMenu(false)}
+371:            >
+372:              About Us
+373:            </Link>
+374:          </nav>
+375:          <div className="header-actions">
+376:            <button
+377:              className="subscribe-button"
+378:              onClick={() => setSubscribeOpen(true)}
+379:            >
+380:              Stay in the loop <Icon name="diagonal" size={15} />
+381:            </button>
+382:            <button
+383:              className="mobile-toggle icon-button"
+384:              aria-label="Toggle navigation"
+385:              aria-expanded={mobileMenu}
+386:              onClick={() => setMobileMenu(!mobileMenu)}
+387:            >
+388:              <Icon name={mobileMenu ? "close" : "menu"} />
+389:            </button>
+390:          </div>
+391:        </div>
+392:      </header>
+393:      <main className="page-container">
+394:        {isAbout ? (
+395:          <AboutPage />
+396:        ) : (
+397:          <>
+398:            <section className="hero hero-landing" aria-labelledby="hero-title">
+399:              <img
+400:                className="landing-image"
+401:                src={interviewHero}
+402:                alt="Two people seated facing each other during an interview"
+403:                fetchPriority="high"
+404:              />
+405:              <div className="landing-shade" aria-hidden="true" />
+406:              <div className="hero-copy">
+407:                <div className="eyebrow">
+408:                  <span className="" /> NOAH YI · INTERVIEWER
+409:                </div>
+410:                <h1 id="hero-title">
+411:                  Exploring
+412:                  <br />
+413:                  <em>Religion</em>
+414:                </h1>
+415:                <p>
+416:                  Understanding faith and making accesible to everyone
+417:                  <br className="desktop-break" /> A home for our interviews,
+418:                  shorts, and in-depth
+419:                  <br className="desktop-break" /> analyses.
+420:                </p>
+421:                <a className="primary-button" href="#videos">
+422:                  Explore the videos <Icon name="arrow" size={18} />
+423:                </a>
+424:                <div className="hero-social">
+425:                  <span>FIND US ELSEWHERE</span>
+426:                  <a
+427:                    href="https://www.youtube.com/@copingwithsuffering "
+428:                    target="_blank"
+429:                    rel="noreferrer"
+430:                    aria-label="YouTube"
+431:                  >
+432:                    <Icon name="YouTube" size={19} />
+433:                  </a>
+434:                  <a
+435:                    href="https://www.tiktok.com/@copingwithsuffering "
+436:                    target="_blank"
+437:                    rel="noreferrer"
+438:                    aria-label="TikTok"
+439:                  >
+440:                    <Icon name="TikTok" size={18} />
+441:                  </a>
+442:                  <a
+443:                    href="https://www.instagram.com/copingwithsuffering/?hl=it "
+444:                    target="_blank"
+445:                    rel="noreferrer"
+446:                    aria-label="Instagram"
+447:                  >
+448:                    <Icon name="Instagram" size={18} />
+449:                  </a>
+450:                </div>
+451:              </div>
+452:              <button
+453:                className="landing-feature"
+454:                onClick={() => setActiveVideo(videos[0])}
+455:                aria-label="Watch our exploration of Buddhism"
+456:              >
+457:                <span className="landing-feature-play">
+458:                  <Icon name="play" size={22} />
+459:                </span>
+460:                <span className="landing-feature-copy">
+461:                  <span className="landing-feature-label">
+462:                    LATEST INTERVIEW · 50:23
+463:                  </span>
+464:                  <span className="landing-feature-title">What is Islam?</span>
+465:                </span>
+466:                <Icon name="diagonal" size={18} />
+467:              </button>
+468:            </section>
+469:            <div className="section-rule">
+470:              <span>Interviews & Videos</span>
+471:              <span className="rule-line" />
+472:              <span className="tiny-star">✳</span>
+473:            </div>
+474:            <section className="videos-section" id="videos">
+475:              <div className="section-heading">
+476:                <div>
+477:                  <div className="eyebrow muted">THE VIDEO COLLECTION</div>
+478:                  <h2>
+479:                    Some Clips<span>.</span>
+480:                  </h2>
+481:                </div>
+482:                <span className="section-aside">
+483:                  Across different platforms
+484:                </span>
+485:              </div>
+486:              <div className="collection-controls">
+487:                <div
+488:                  className="filter-tabs"
+489:                  role="group"
+490:                  aria-label="Filter videos by platform"
+491:                >
+492:                  {["All videos", "YouTube", "TikTok", "Instagram"].map((p) => (
+493:                    <button
+494:                      key={p}
+495:                      className={
+496:                        platform === p ? "filter-tab selected" : "filter-tab"
+497:                      }
+498:                      onClick={() => setPlatform(p)}
+499:                      aria-pressed={platform === p}
+500:                    >
+501:                      {p !== "All videos" && <Icon name={p} size={16} />}
+502:                      {p}
+503:                      {p === "All videos" && (
+504:                        <span className="count">{videos.length}</span>
+505:                      )}
+506:                    </button>
+507:                  ))}
+508:                </div>
+509:                <div className="sort-controls">
+510:                  {searchOpen && (
+511:                    <input
+512:                      className="search-input"
+513:                      value={query}
+514:                      onChange={(e) => setQuery(e.target.value)}
+515:                      placeholder="Find a video…"
+516:                      aria-label="Search videos"
+517:                      autoFocus
+518:                    />
+519:                  )}
+520:                  <button
+521:                    className="icon-button search-button"
+522:                    aria-label={searchOpen ? "Close search" : "Search videos"}
+523:                    onClick={() => {
+524:                      setSearchOpen(!searchOpen)
+525:                      setQuery("")
+526:                    }}
+527:                  >
+528:                    <Icon name={searchOpen ? "close" : "search"} size={18} />
+529:                  </button>
+530:                  <span className="sort-divider" />
+531:                  <select
+532:                    value={sort}
+533:                    onChange={(e) => setSort(e.target.value)}
+534:                    aria-label="Sort videos"
+535:                  >
+536:                    <option value="newest">Newest first</option>
+537:                    <option value="oldest">Oldest first</option>
+538:                  </select>
+539:                </div>
+540:              </div>
+541:              <div className="video-grid">
+542:                {visible.map((v) => (
+543:                  <button
+544:                    className="video-card"
+545:                    key={v.id}
+546:                    onClick={() => setActiveVideo(v)}
+547:                  >
+548:                    <div className="video-image">
+549:                      <img src={v.image} alt={v.title} loading="lazy" />
+550:                      <span
+551:                        className={`platform-badge platform-${v.platform.toLowerCase()}`}
+552:                      >
+553:                        <Icon name={v.platform} size={15} />
+554:                        {v.platform}
+555:                      </span>
+556:                      <span className="card-play">
+557:                        <Icon name="play" size={20} />
+558:                      </span>
+559:                      <span className="duration">{v.duration}</span>
+560:                    </div>
+561:                    <div className="video-category">
+562:                      {v.category}
+563:                      <Icon name="diagonal" size={14} />
+564:                    </div>
+565:                    <h3>{v.title}</h3>
+566:                    <p>
+567:                      {new Date(`${v.date}T12:00:00`).toLocaleDateString(
+568:                        "en-US",
+569:                        {
+570:                          month: "short",
+571:                          day: "numeric",
+572:                          year: "numeric",
+573:                        },
+574:                      )}
+575:                    </p>
+576:                  </button>
+577:                ))}
+578:              </div>
+579:              {visible.length === 0 && (
+580:                <div className="empty-state">
+581:                  No videos found. Try another search or platform.
+582:                </div>
+583:              )}
+584:              {platform === "All videos" && !query && (
+585:                <div className="view-all">
+586:                  <button
+587:                    className="outline-button"
+588:                    onClick={() => setShowAll(!showAll)}
+589:                  >
+590:                    {showAll ? "Show less" : "A little more to explore"}
+591:                    <Icon name={showAll ? "close" : "arrow"} size={16} />
+592:                  </button>
+593:                </div>
+594:              )}
+595:            </section>
+596:            <section className="journal-section" id="journal">
+597:              <div className="section-heading">
+598:                <div>
+599:                  <div className="eyebrow muted">
+600:                    THOUGHTS BEYOND THE INTERVIEWS
+601:                  </div>
+602:                  <h2>
+603:                    From the journal<span>.</span>
+604:                  </h2>
+605:                </div>
+606:                <span className="section-aside">
+607:                  A few things worth putting into words.
+608:                </span>
+609:              </div>
+610:              <div className="journal-grid">
+611:                {posts.map((post) => (
+612:                  <button
+613:                    className="journal-card"
+614:                    onClick={() => setActivePost(post)}
+615:                    key={post.title}
+616:                  >
+617:                    <div className="journal-image">
+618:                      <img src={post.image} alt={post.title} loading="lazy" />
+619:                    </div>
+620:                    <div className="journal-details">
+621:                      <span className="video-category">{post.category}</span>
+622:                      <h3>{post.title}</h3>
+623:                      <p>{post.intro}</p>
+624:                      <span className="post-meta">
+625:                        {post.date}
+626:                        <span>·</span>
+627:                        {post.time}
+628:                        <Icon name="arrow" size={17} />
+629:                      </span>
+630:                    </div>
+631:                  </button>
+632:                ))}
+633:              </div>
+634:            </section>
+635:            <section
+636:              className="interviews-section"
+637:              id="interviews"
+638:              aria-labelledby="interviews-title"
+639:            >
+640:              <div className="section-heading">
+641:                <div>
+642:                  <div className="eyebrow muted">EXPLORING RELIGION</div>
+643:                  <h2 id="interviews-title">
+644:                    Current Interviews<span>.</span>
+645:                  </h2>
+646:                </div>
+647:                <span className="section-aside">
+648:                  Watch full interviews on Spotify & Youtube
+649:                </span>
+650:              </div>
+651:              <p className="timeline-intro">
+652:                Exploring addiction, faith, trauma, meaning, and suffering.
+653:                Start anywhere
+654:              </p>
+655:              <ol className="interview-timeline">
+656:                {interviews.map((interview) => (
+657:                  <li className="timeline-entry" key={interview.id}>
+658:                    <div className="timeline-date">
+659:                      <time dateTime={interview.date}>
+660:                        {new Date(
+661:                          `${interview.date}T12:00:00`,
+662:                        ).toLocaleDateString("en-US", {
+663:                          month: "short",
+664:                          day: "numeric",
+665:                        })}
+666:                      </time>
+667:                      <span>{interview.date.slice(0, 4)}</span>
+668:                    </div>
+669:                    <span className="timeline-marker" aria-hidden="true" />
+670:                    <button
+671:                      className="interview-card"
+672:                      onClick={() => setActiveVideo(interview)}
+673:                      aria-label={`Watch sample interview: ${interview.title}, with ${interview.guest}`}
+674:                    >
+675:                      <div className="interview-portrait">
+676:                        <img
+677:                          src={interview.image}
+678:                          alt="Illustrative portrait for this sample interview"
+679:                          loading="lazy"
+680:                        />
+681:                        <span className="interview-play">
+682:                          <Icon name="play" size={18} />
+683:                        </span>
+684:                      </div>
+685:                      <div className="interview-details">
+686:                        <div className="interview-kicker">
+687:                          <span>EPISODE {interview.episode}</span>
+688:                          <span className="interview-topic">
+689:                            {interview.topic}
+690:                          </span>
+691:                        </div>
+692:                        <h3>{interview.title}</h3>
+693:                        <p>
+694:                          With {interview.guest} <span>·</span> {interview.role}
+695:                        </p>
+696:                        <div className="interview-watch">
+697:                          <span>
+698:                            Watch conversation <Icon name="arrow" size={15} />
+699:                          </span>
+700:                          <span>
+701:                            {interview.duration}{" "}
+702:                            <span className="interview-platform">
+703:                              · YouTube
+704:                            </span>
+705:                          </span>
+706:                        </div>
+707:                      </div>
+708:                    </button>
+709:                  </li>
+710:                ))}
+711:              </ol>
+712:            </section>
+713:            <section className="newsletter">
+714:              <div className="newsletter-symbol">
+715:                <Icon name="mail" size={33} />
+716:              </div>
+717:              <div className="newsletter-copy">
+718:                <div className="eyebrow muted">
+719:                  A MAILING LIST (work in progress)
+720:                </div>
+721:                <h2>Join the Mailing List!</h2>
+722:                <p>New interviews and clips will be sent to you directly.</p>
+723:              </div>
+724:              <button
+725:                className="primary-button"
+726:                onClick={() => setSubscribeOpen(true)}
+727:              >
+728:                Count me in <Icon name="arrow" size={18} />
+729:              </button>
+730:            </section>
+731:          </>
+732:        )}
+733:      </main>
+734:      <footer className="site-footer">
+735:        <Link
+736:          to="/"
+737:          className="wordmark brand-long"
+738:          aria-label="Coping with Suffering home"
+739:        >
+740:          coping with
+741:          <br />
+742:          suffering<span>.</span>
+743:        </Link>
+744:        <span>Made with curiosity. © {new Date().getFullYear()} Noah Yi.</span>
+745:        <div>
+746:          <a
+747:            href="https://www.youtube.com/@copingwithsuffering"
+748:            target="_blank"
+749:            rel="noreferrer"
+750:            aria-label="YouTube"
+751:          >
+752:            <Icon name="YouTube" size={18} />
+753:          </a>
+754:          <a
+755:            href="https://www.tiktok.com/@copingwithsuffering "
+756:            target="_blank"
+757:            rel="noreferrer"
+758:            aria-label="TikTok"
+759:          >
+760:            <Icon name="TikTok" size={18} />
+761:          </a>
+762:          <a
+763:            href="https://www.instagram.com/copingwithsuffering/?hl=it "
+764:            target="_blank"
+765:            rel="noreferrer"
+766:            aria-label="Instagram"
+767:          >
+768:            <Icon name="Instagram" size={18} />
+769:          </a>
+770:          <a href="yinoah8@gmail.com" aria-label="Email Noah">
+771:            <Icon name="mail" size={18} />
+772:          </a>
+773:        </div>
+774:      </footer>
+775:      {activeVideo && (
+776:        <Modal title={activeVideo.title} onClose={() => setActiveVideo(null)}>
+777:          {activeVideo.platform === "YouTube" ? (
+778:            <iframe
+779:              className="modal-video"
+780:              src={`https://www.youtube.com/embed/${getYouTubeVideoId(activeVideo.videoUrl)}?autoplay=1`}
+781:              title={activeVideo.title}
+782:              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+783:              referrerPolicy="strict-origin-when-cross-origin"
+784:              allowFullScreen
+785:            />
+786:          ) : (
+787:            <video
+788:              className="modal-video"
+789:              controls
+790:              autoPlay
+791:              playsInline
+792:              poster={activeVideo.image}
+793:              src={activeVideo.videoUrl}
+794:            />
+795:          )}
+796:          <div className="modal-content">
+797:            <div className="eyebrow muted">
+798:              {activeVideo.category} · {activeVideo.platform}
+799:            </div>
+800:            <h2>{activeVideo.title}</h2>
+801:            <p>{activeVideo.description}</p>
+802:            <p className="demo-note">
+803:              This is a sample video preview. Replace it with your own video or
+804:              platform embed.
+805:            </p>
+806:            <a
+807:              className="primary-button"
+808:              href={
+809:                activeVideo.platform === "YouTube"
+810:                  ? `https://www.youtube.com/watch?v=xvKO6Wwra34`
+811:                  : activeVideo.platform === "TikTok"
+812:                    ? `https://www.tiktok.com/search?q=${encodeURIComponent(activeVideo.title)}`
+813:                    : "https://www.instagram.com/"
+814:              }
+815:              target="_blank"
+816:              rel="noreferrer"
+817:            >
+818:              Explore on {activeVideo.platform}
+819:              <Icon name="diagonal" size={17} />
+820:            </a>
+821:          </div>
+822:        </Modal>
+823:      )}
+824:      {activePost && (
+825:        <Modal title={activePost.title} onClose={() => setActivePost(null)}>
+826:          <img
+827:            className="article-cover"
+828:            src={activePost.image}
+829:            alt={activePost.title}
+830:          />
+831:          <article className="modal-content article-content">
+832:            <div className="eyebrow muted">
+833:              {activePost.category} · {activePost.time}
+834:            </div>
+835:            <h2>{activePost.title}</h2>
+836:            <span className="article-date">Noah Yi · {activePost.date}</span>
+837:            <p className="article-intro">{activePost.intro}</p>
+838:            {activePost.body.map((p) => (
+839:              <p key={p}>{p}</p>
+840:            ))}
+841:          </article>
+842:        </Modal>
+843:      )}
+844:      {subscribeOpen && (
+845:        <Modal title="Stay in the loop" onClose={() => setSubscribeOpen(false)}>
+846:          <div className="modal-content subscribe-content">
+847:            <Icon name="mail" size={32} />
+848:            <div className="eyebrow muted">
+849:              LETTERS FROM COPING WITH SUFFERING
+850:            </div>
+851:            <h2>
+852:              {subscribed ? "You’re on the list." : "A little more connection."}
+853:            </h2>
+854:            {subscribed ? (
+855:              <>
+856:                <p>
+857:                  Thanks for being here. Your email has been saved on this
+858:                  device.
+859:                </p>
+860:                <p className="demo-note">Currently in the works</p>
+861:                <button
+862:                  className="primary-button"
+863:                  onClick={() => setSubscribeOpen(false)}
+864:                >
+865:                  Keep looking <Icon name="arrow" size={17} />
+866:                </button>
+867:              </>
+868:            ) : (
+869:              <>
+870:                <p>New interviews, blogs, and more</p>
+871:                <form onSubmit={subscribe}>
+872:                  <label htmlFor="email">Your email address</label>
+873:                  <input
+874:                    id="email"
+875:                    type="email"
+876:                    required
+877:                    value={email}
+878:                    onChange={(e) => setEmail(e.target.value)}
+879:                    placeholder="you@example.com"
+880:                  />
+881:                  <button className="primary-button" type="submit">
+882:                    Count me in <Icon name="arrow" size={17} />
+883:                  </button>
+884:                </form>
+885:                <p className="demo-note">
+886:                  Demo signup — saved locally, no emails sent.
+887:                </p>
+888:              </>
+889:            )}
+890:          </div>
+891:        </Modal>
+892:      )}
+893:    </>
+894:  )
+895:}
+896:
+897:function AboutPage() {
+898:  return (
+899:    <section className="about-page" aria-labelledby="about-title">
+900:      <Link to="/#videos" className="about-back">
+901:        <Icon name="arrow" size={16} />
+902:        Back to the videos
+903:      </Link>
+904:      <div className="about-page-grid">
+905:        <div className="about-page-copy">
+906:          <div className="eyebrow muted"></div>
+907:          <h1 id="about-title">
+908:            About Coping With Suffering<span className="accent">.</span>
+909:          </h1>
+910:          <p className="about-lead">
+911:            An Uber Driver, Painter, and Construction Worker
+912:          </p>
+913:          <p>
+914:            What do these all have in common? Our society places an
+915:            unprecedented weight on 'figuring it out yourself', but that's not
+916:            the way it should be. Our problems, addictions, and traumas should
+917:            be attacked head on. For thousands of years, Religion has provided
+918:            us with the tools necessary to work with our daily lives. In these
+919:            interviews, we hope you can find peace.
+920:          </p>
+921:          <p>
+922:            Thank you for watching. Please contact me @ yinoah8@gmail.com if you
+923:            have any questions or would like to be interviewed
+924:          </p>
+925:          <a className="primary-button" href="mailto:yinoah8@gmail.com">
+926:            Let’s make something <Icon name="arrow" size={17} />
+927:          </a>
+928:          <p className="about-demo-note">@hello_noah101 on Instagram</p>
+929:        </div>
+930:        <figure className="about-page-image">
+931:          <img src={photos.me} alt="This is us" />
+932:          <figcaption>Change starts with Exploration</figcaption>
+933:        </figure>
+934:      </div>
+935:      <div className="about-explore">
+936:        <div>
+937:          <div className="eyebrow muted">THERE’S MORE TO EXPLORE</div>
+938:          <h2>
+939:            A few places to start<span className="accent">.</span>
+940:          </h2>
+941:        </div>
+942:        <div className="about-explore-links">
+943:          <Link to="/#videos">
+944:            The videos <Icon name="diagonal" size={17} />
+945:          </Link>
+946:          <Link to="/#journal">
+947:            The journal <Icon name="diagonal" size={17} />
+948:          </Link>
+949:          <Link to="/#interviews">
+950:            The interviews <Icon name="diagonal" size={17} />
+951:          </Link>
+952:        </div>
+953:      </div>
+954:    </section>
+955:  )
+956:}
+957:
+958:const router = createBrowserRouter([
+959:  { path: "/", Component: Site },
+960:  { path: "/about", Component: Site },
+961:])
+962:
+963:export default function App() {
+964:  return <RouterProvider router={router} />
+965:}
+
+(End of file — 965 lines.)
