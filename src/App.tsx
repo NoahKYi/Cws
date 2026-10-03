@@ -113,7 +113,7 @@ type Interview = Video & {
 }
 const interviews: Interview[] = [
   {
-    id: 103,
+    id: 101,
     title: "Buddhism",
     category: "THE INTERVIEW SERIES",
     platform: "YouTube",
@@ -147,7 +147,7 @@ const interviews: Interview[] = [
     videoUrl: "https://www.youtube.com/watch?v=xvKO6Wwra34&t=7s",
   },
   {
-    id: 101,
+    id: 103,
     title: "Christianity",
     category: "THE INTERVIEW SERIES",
     platform: "YouTube",
