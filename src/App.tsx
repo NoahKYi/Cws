@@ -44,7 +44,7 @@ const videos: Video[] = [
     duration: ":55",
     date: "2025-05-27",
     description: "What it means to be Enlightened in the Buddhist perspective",
-    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    videoUrl: "https://www.youtube.com/shorts/ImuuoLOsaW8",
   },
   {
     id: 2,
@@ -56,7 +56,7 @@ const videos: Video[] = [
     date: "2025-08-05",
     description:
       "Islam is ultimately a faith of Action, explore what that means in this video",
-    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    videoUrl: "https://www.youtube.com/shorts/MTCRD37P-0E",
   },
   {
     id: 3,
@@ -67,7 +67,7 @@ const videos: Video[] = [
     duration: "0:20",
     date: "2026-08-09",
     description: "Forgiveness is an act that is ultimately up to you.",
-    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    videoUrl: "https://www.youtube.com/shorts/qddXsm4N6Ms",
   },
   {
     id: 4,
@@ -79,7 +79,7 @@ const videos: Video[] = [
     date: "2026-09-27",
     description:
       "There is only one true joy that goes beyond 'stuff'. 'the less you have, the more you truly posess'",
-    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    videoUrl: "https://www.youtube.com/shorts/RCUJn-K2Gac",
   },
   {
     id: 5,
@@ -91,7 +91,7 @@ const videos: Video[] = [
     date: "2026-09-20",
     description:
       "How does a Buddhist monk live their life? What is important? What isn't?",
-    videoUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    videoUrl: "https://www.youtube.com/shorts/x9OZvpLQTXQ",
   },
   /** {
     id: 6,
@@ -179,25 +179,38 @@ const posts = [
   },
 ]
 
+function parseYouTubeVideoId(videoUrl: string) {
+  if (videoUrl.includes("YOUR_VIDEO_ID")) return null
+
+  try {
+    const url = new URL(videoUrl)
+    return url.hostname === "youtu.be"
+      ? (url.pathname.split("/").filter(Boolean)[0] ?? null)
+      : (url.searchParams.get("v") ??
+          url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1] ??
+          null)
+  } catch {
+    return null
+  }
+}
+
+function getVideoThumbnailUrl(video: Video) {
+  const videoId = parseYouTubeVideoId(video.videoUrl)
+  return videoId
+    ? `https://i.ytimg.com/vi/${videoId}/frame0.jpg`
+    : video.image
+}
+
 function getVideoEmbedUrl(video: Video) {
   if (video.videoUrl.includes("YOUR_VIDEO_ID")) return null
 
   try {
     const url = new URL(video.videoUrl)
 
-    if (video.platform === "YouTube") {
-      const videoId =
-        url.hostname === "youtu.be"
-          ? url.pathname.split("/").filter(Boolean)[0]
-          : url.searchParams.get("v") ??
-            url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1]
-
-      if (!videoId) return null
-
+    const youtubeVideoId = parseYouTubeVideoId(video.videoUrl)
+    if (youtubeVideoId) {
       const time = url.searchParams.get("t") ?? url.searchParams.get("start")
-      const timeParts = time?.match(
-        /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/,
-      )
+      const timeParts = time?.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/)
       const seconds = timeParts
         ? Number(timeParts[1] ?? 0) * 3600 +
           Number(timeParts[2] ?? 0) * 60 +
@@ -206,17 +219,19 @@ function getVideoEmbedUrl(video: Video) {
       const params = new URLSearchParams({ autoplay: "1", rel: "0" })
       if (seconds) params.set("start", String(seconds))
 
-      return `https://www.youtube.com/embed/${videoId}?${params}`
+      return `https://www.youtube.com/embed/${youtubeVideoId}?${params}`
     }
 
-    if (video.platform === "TikTok") {
+    if (url.hostname.endsWith("tiktok.com")) {
       const videoId = url.pathname.match(/\/video\/(\d+)/)?.[1]
       return videoId
         ? `https://www.tiktok.com/player/v1/${videoId}?autoplay=1`
         : null
     }
 
-    const post = url.pathname.match(/^\/(p|reel|tv)\/([^/]+)/)
+    const post = url.hostname.endsWith("instagram.com")
+      ? url.pathname.match(/^\/(p|reel|tv)\/([^/]+)/)
+      : null
     return post
       ? `https://www.instagram.com/${post[1]}/${post[2]}/embed/`
       : null
@@ -352,9 +367,15 @@ function Site() {
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
   const [mobileMenu, setMobileMenu] = useState(false)
-  const activeVideoEmbedUrl = activeVideo
-    ? getVideoEmbedUrl(activeVideo)
-    : null
+  const activeVideoEmbedUrl = activeVideo ? getVideoEmbedUrl(activeVideo) : null
+  const currentInterviews = [...interviews].sort((a, b) => {
+    const availabilityDifference =
+      Number(Boolean(getVideoEmbedUrl(b))) -
+      Number(Boolean(getVideoEmbedUrl(a)))
+
+    return availabilityDifference || b.date.localeCompare(a.date)
+  })
+  const latestInterview = currentInterviews[0]
   const filtered = videos
     .filter(
       (v) =>
@@ -500,17 +521,21 @@ function Site() {
               </div>
               <button
                 className="landing-feature"
-                onClick={() => setActiveVideo(videos[0])}
-                aria-label="Watch our exploration of Buddhism"
+                onClick={() => setActiveVideo(latestInterview)}
+                aria-label={`Watch our latest interview: ${latestInterview.title}`}
               >
                 <span className="landing-feature-play">
                   <Icon name="play" size={22} />
                 </span>
                 <span className="landing-feature-copy">
                   <span className="landing-feature-label">
-                    LATEST INTERVIEW · 50:23
+                    LATEST INTERVIEW
+                    {latestInterview.duration &&
+                      ` · ${latestInterview.duration}`}
                   </span>
-                  <span className="landing-feature-title">What is Islam?</span>
+                  <span className="landing-feature-title">
+                    {latestInterview.title}
+                  </span>
                 </span>
                 <Icon name="diagonal" size={18} />
               </button>
@@ -595,7 +620,15 @@ function Site() {
                     onClick={() => setActiveVideo(v)}
                   >
                     <div className="video-image">
-                      <img src={v.image} alt={v.title} loading="lazy" />
+                      <img
+                        src={getVideoThumbnailUrl(v)}
+                        alt={`Thumbnail for ${v.title}`}
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.onerror = null
+                          event.currentTarget.src = v.image
+                        }}
+                      />
                       <span
                         className={`platform-badge platform-${v.platform.toLowerCase()}`}
                       >
@@ -702,7 +735,7 @@ function Site() {
                 Start anywhere
               </p>
               <ol className="interview-timeline">
-                {interviews.map((interview) => (
+                {currentInterviews.map((interview) => (
                   <li className="timeline-entry" key={interview.id}>
                     <div className="timeline-date">
                       <time dateTime={interview.date}>
@@ -723,9 +756,13 @@ function Site() {
                     >
                       <div className="interview-portrait">
                         <img
-                          src={interview.image}
-                          alt="Illustrative portrait for this sample interview"
+                          src={getVideoThumbnailUrl(interview)}
+                          alt={`Thumbnail for ${interview.title}`}
                           loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null
+                            event.currentTarget.src = interview.image
+                          }}
                         />
                         <span className="interview-play">
                           <Icon name="play" size={18} />
@@ -834,7 +871,7 @@ function Site() {
             />
           ) : (
             <div className="modal-video modal-video-placeholder">
-              <img src={activeVideo.image} alt="" />
+              <img src={getVideoThumbnailUrl(activeVideo)} alt="" />
               <span>
                 Add a valid {activeVideo.platform} video URL to display it here.
               </span>
