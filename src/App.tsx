@@ -196,9 +196,7 @@ function parseYouTubeVideoId(videoUrl: string) {
 
 function getVideoThumbnailUrl(video: Video) {
   const videoId = parseYouTubeVideoId(video.videoUrl)
-  return videoId
-    ? `https://i.ytimg.com/vi/${videoId}/frame0.jpg`
-    : video.image
+  return videoId ? `https://i.ytimg.com/vi/${videoId}/frame0.jpg` : video.image
 }
 
 function getVideoEmbedUrl(video: Video) {
@@ -475,7 +473,7 @@ function Site() {
               <div className="landing-shade" aria-hidden="true" />
               <div className="hero-copy">
                 <div className="eyebrow">
-                  <span className="" /> NOAH YI · INTERVIEWER
+                  <span className="" /> NOAH YI & MR. AHMED BASHEER
                 </div>
                 <h1 id="hero-title">
                   Exploring
@@ -993,12 +991,13 @@ function AboutPage() {
             unprecedented weight on 'figuring it out yourself', but that's not
             the way it should be. Our problems, addictions, and traumas should
             be attacked head on. For thousands of years, Religion has provided
-            us with the tools necessary to work with our daily lives. In these
-            interviews, we hope you can find peace.
+            us with the tools necessary to work with our daily lives. Through
+            these interviews, we hope you can find peace.
           </p>
           <p>
             Thank you for watching. Please contact me @ yinoah8@gmail.com if you
-            have any questions or would like to be interviewed
+            have any questions or would like to be interviewed. Special thanks
+            to Lawrence Yi for editing and filming.
           </p>
           <a className="primary-button" href="mailto:yinoah8@gmail.com">
             Let’s make something <Icon name="arrow" size={17} />
