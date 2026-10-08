@@ -473,15 +473,16 @@ function Site() {
               <div className="landing-shade" aria-hidden="true" />
               <div className="hero-copy">
                 <div className="eyebrow">
-                  <span className="" /> NOAH YI & MR. AHMED BASHEER
+                  <span className="" /> NOAH YI with MR. AHMED BASHEER
+                  {/*<em>What is Islam?</em> */}
                 </div>
                 <h1 id="hero-title">
                   Exploring
                   <br />
-                  <em>Religion</em>
+                  <em>Peace</em>
                 </h1>
                 <p>
-                  Understanding faith and making accesible to everyone
+                  Understanding addiction, trauma, pain through all contexts
                   <br className="desktop-break" /> A home for our interviews,
                   shorts, and in-depth
                   <br className="desktop-break" /> analyses.
